@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H4VF7WNZRR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-H4VF7WNZRR');
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SubSlayer – Find and slay wasted subscriptions</title>
+<style>
+:root{--bg:#f5f4fa;--card:#fff;--tx:#17162a;--mut:#6c6b82;--ac:#ff3d71;--ok:#14b86a;--bd:#e5e3f1}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f0e18;--card:#1a1929;--tx:#f0effc;--mut:#9d9bb5;--ac:#ff5c88;--ok:#2ad586;--bd:#2c2b42}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
+.w{max-width:1000px;margin:0 auto;padding:26px 0 50px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:2rem}h1 span{color:var(--ac)}
+.sub{color:var(--mut);margin:2px 0 18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}
+.st small{color:var(--mut);display:block}.st b{font-size:1.5rem}
+.st.hot b{color:var(--ac)}.st.good b{color:var(--ok)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:720px){.g2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
+h3{margin:0 0 10px;font-size:1.05rem}
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+form .f{grid-column:1/-1}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;min-width:0}
+button{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;background:var(--ac);color:#fff}
+button.g{background:transparent;color:var(--tx);border:1px solid var(--bd);font-weight:500}
+.chart{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.chart svg{width:150px;height:150px;flex:none}
+.lg{font-size:.88rem;flex:1;min-width:130px}.lg div{display:flex;justify-content:space-between;gap:8px;margin:3px 0}
+.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.item{display:grid;grid-template-columns:10px 1fr auto auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
+.item:first-child{border-top:0}
+.dot{width:10px;height:10px;border-radius:50%}
+.item small{color:var(--mut)}
+.pill{font-size:.78rem;padding:3px 9px;border-radius:99px;border:1px solid var(--bd);white-space:nowrap}
+.pill.r{background:var(--ac);color:#fff;border-color:var(--ac)}.pill.o{background:#ff9f1a;color:#222;border-color:#ff9f1a}
+.item select{width:auto;padding:6px;font-size:.85rem}
+@media(max-width:560px){.item{grid-template-columns:10px 1fr auto}.item .pill,.item select{grid-column:2}}
+.empty{color:var(--mut);text-align:center;padding:24px 0}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="top">
+<div><h1>Sub<span>Slayer</span></h1><p class="sub">Track every subscription, see what you really pay, and slay the ones you don't use.</p></div>
+<div class="tools"><select id="cur" aria-label="Currency"><option>$</option><option>€</option><option>£</option><option>RM</option><option>₹</option><option>¥</option></select><button class="g" id="demo">Load sample</button><button class="g" id="csv">Export CSV</button></div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="g2">
+<div class="card"><h3>Add subscription</h3>
+<form id="f">
+<input class="f" id="n" placeholder="Name (e.g. Netflix)" required maxlength="40">
+<input id="p" type="number" step="0.01" min="0" placeholder="Price" required>
+<select id="cy"><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="weekly">Weekly</option></select>
+<select id="ct"><option>Streaming</option><option>Music</option><option>Software</option><option>Gaming</option><option>Fitness</option><option>News</option><option>Other</option></select>
+<input id="d" type="date" required aria-label="Next renewal">
+<select class="f" id="u"><option value="often">I use it often</option><option value="sometimes">I use it sometimes</option><option value="rarely">I rarely use it</option></select>
+<button class="f">+ Add</button>
+</form></div>
+<div class="card"><h3>Where your money goes</h3><div class="chart" id="chart"></div></div>
+</div>
+<div class="card"><h3>Your subscriptions (next renewal first)</h3><div id="list"></div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const COL={Streaming:"#ff3d71",Music:"#8d73ff",Software:"#1e90ff",Gaming:"#2ed573",Fitness:"#ffa502",News:"#00cec9",Other:"#a4b0be"};
+let D=[],cur="$";
+try{D=JSON.parse(localStorage.getItem("subs")||"[]");cur=localStorage.getItem("cur")||"$"}catch(e){}
+const save=()=>{try{localStorage.setItem("subs",JSON.stringify(D));localStorage.setItem("cur",cur)}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mo=s=>s.cycle=="monthly"?s.price:s.cycle=="yearly"?s.price/12:s.price*52/12;
+const fm=n=>cur+n.toFixed(2);
+const today=()=>{const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())};
+function nxt(s){const [y,m,d]=s.date.split("-").map(Number);let x=new Date(y,m-1,d),t=today(),i=0;
+ while(x<t&&i++<2000){if(s.cycle=="weekly")x.setDate(x.getDate()+7);else if(s.cycle=="yearly")x.setFullYear(x.getFullYear()+1);else x.setMonth(x.getMonth()+1)}
+ return Math.round((x-t)/864e5)}
+const iso=n=>{const x=today();x.setDate(x.getDate()+n);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
+function render(){
+ $("cur").value=cur;
+ const tot=D.reduce((a,s)=>a+mo(s),0),waste=D.filter(s=>s.use=="rarely").reduce((a,s)=>a+mo(s),0);
+ const soon=D.filter(s=>nxt(s)<=7).length;
+ $("stats").innerHTML=`<div class="st"><small>Per month</small><b>${fm(tot)}</b></div><div class="st"><small>Per year</small><b>${fm(tot*12)}</b></div><div class="st"><small>Active</small><b>${D.length}</b></div><div class="st ${soon?"hot":""}"><small>Renewing in 7 days</small><b>${soon}</b></div><div class="st ${waste?"good":""}"><small>Save/year if slayed</small><b>${fm(waste*12)}</b></div>`;
+ const cats={};D.forEach(s=>cats[s.cat]=(cats[s.cat]||0)+mo(s));
+ const ent=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+ if(!ent.length){$("chart").innerHTML='<div class="empty" style="width:100%">Add a subscription to see your breakdown.</div>'}
+ else{let off=0;const R=60,C=2*Math.PI*R;
+  const arcs=ent.map(([k,v])=>{const l=v/tot*C,a=`<circle r="${R}" cx="80" cy="80" fill="none" stroke="${COL[k]||COL.Other}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 80 80)"/>`;off+=l;return a}).join("");
+  $("chart").innerHTML=`<svg viewBox="0 0 160 160">${arcs}<text x="80" y="76" text-anchor="middle" fill="currentColor" font-size="12" opacity=".6">monthly</text><text x="80" y="96" text-anchor="middle" fill="currentColor" font-size="16" font-weight="700">${fm(tot)}</text></svg><div class="lg">${ent.map(([k,v])=>`<div><span><i style="background:${COL[k]||COL.Other}"></i>${esc(k)}</span><b>${fm(v)}</b></div>`).join("")}</div>`}
+ const sorted=[...D].sort((a,b)=>nxt(a)-nxt(b));
+ $("list").innerHTML=sorted.length?sorted.map(s=>{const n=nxt(s),cl=n<=3?"r":n<=7?"o":"";
+  return `<div class="item"><span class="dot" style="background:${COL[s.cat]||COL.Other}"></span><div><b>${esc(s.name)}</b><br><small>${esc(s.cat)} · ${fm(s.price)}/${s.cycle=="monthly"?"mo":s.cycle=="yearly"?"yr":"wk"}${s.cycle!="monthly"?" ("+fm(mo(s))+"/mo)":""}</small></div><span class="pill ${cl}">${n==0?"Today!":n==1?"Tomorrow":"in "+n+" days"}</span><select data-u="${s.id}" aria-label="Usage"><option value="often"${s.use=="often"?" selected":""}>Often</option><option value="sometimes"${s.use=="sometimes"?" selected":""}>Sometimes</option><option value="rarely"${s.use=="rarely"?" selected":""}>Rarely</option></select><button class="g" data-x="${s.id}" aria-label="Delete">✕</button></div>`}).join(""):'<div class="empty">Nothing yet. Add your first subscription or load the sample.</div>';
+}
+$("f").onsubmit=e=>{e.preventDefault();D.push({id:Date.now()+Math.random(),name:$("n").value.trim(),price:+$("p").value,cycle:$("cy").value,cat:$("ct").value,date:$("d").value,use:$("u").value});save();e.target.reset();$("d").value=iso(7);render()};
+$("list").onclick=e=>{const b=e.target.closest("[data-x]");if(b){D=D.filter(s=>String(s.id)!==b.dataset.x);save();render()}};
+$("list").onchange=e=>{const id=e.target.dataset.u;if(id){const s=D.find(x=>String(x.id)===id);s.use=e.target.value;save();render()}};
+$("cur").onchange=e=>{cur=e.target.value;save();render()};
+$("demo").onclick=()=>{D=[["Netflix",15.49,"monthly","Streaming",3,"sometimes"],["Spotify",10.99,"monthly","Music",12,"often"],["Adobe Creative Cloud",59.99,"monthly","Software",5,"sometimes"],["Gym",39,"monthly","Fitness",20,"rarely"],["Cloud Storage",99.99,"yearly","Software",60,"often"],["Game Pass",16.99,"monthly","Gaming",1,"rarely"],["News+",6.99,"monthly","News",9,"rarely"]].map((x,i)=>({id:i+1,name:x[0],price:x[1],cycle:x[2],cat:x[3],date:iso(x[4]),use:x[5]}));save();render()};
+$("csv").onclick=()=>{const r=[["Name","Price","Cycle","Category","Monthly cost","Next renewal in (days)","Usage"],...D.map(s=>[s.name,s.price,s.cycle,s.cat,mo(s).toFixed(2),nxt(s),s.use])];
+ const t=r.map(a=>a.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="subscriptions.csv";a.click()};
+$("d").value=iso(7);render();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SubSlayer – Find and slay wasted subscriptions</title>
+<style>
+:root{--bg:#f5f4fa;--card:#fff;--tx:#17162a;--mut:#6c6b82;--ac:#ff3d71;--ok:#14b86a;--bd:#e5e3f1}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f0e18;--card:#1a1929;--tx:#f0effc;--mut:#9d9bb5;--ac:#ff5c88;--ok:#2ad586;--bd:#2c2b42}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
+.w{max-width:1000px;margin:0 auto;padding:26px 0 50px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+h1{margin:0;font-size:2rem}h1 span{color:var(--ac)}
+.sub{color:var(--mut);margin:2px 0 18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}
+.st small{color:var(--mut);display:block}.st b{font-size:1.5rem}
+.st.hot b{color:var(--ac)}.st.good b{color:var(--ok)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:720px){.g2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
+h3{margin:0 0 10px;font-size:1.05rem}
+form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+form .f{grid-column:1/-1}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;min-width:0}
+button{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;background:var(--ac);color:#fff}
+button.g{background:transparent;color:var(--tx);border:1px solid var(--bd);font-weight:500}
+.chart{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.chart svg{width:150px;height:150px;flex:none}
+.lg{font-size:.88rem;flex:1;min-width:130px}.lg div{display:flex;justify-content:space-between;gap:8px;margin:3px 0}
+.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.item{display:grid;grid-template-columns:10px 1fr auto auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
+.item:first-child{border-top:0}
+.dot{width:10px;height:10px;border-radius:50%}
+.item small{color:var(--mut)}
+.pill{font-size:.78rem;padding:3px 9px;border-radius:99px;border:1px solid var(--bd);white-space:nowrap}
+.pill.r{background:var(--ac);color:#fff;border-color:var(--ac)}.pill.o{background:#ff9f1a;color:#222;border-color:#ff9f1a}
+.item select{width:auto;padding:6px;font-size:.85rem}
+@media(max-width:560px){.item{grid-template-columns:10px 1fr auto}.item .pill,.item select{grid-column:2}}
+.empty{color:var(--mut);text-align:center;padding:24px 0}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="top">
+<div><h1>Sub<span>Slayer</span></h1><p class="sub">Track every subscription, see what you really pay, and slay the ones you don't use.</p></div>
+<div class="tools"><select id="cur" aria-label="Currency"><option>$</option><option>€</option><option>£</option><option>RM</option><option>₹</option><option>¥</option></select><button class="g" id="demo">Load sample</button><button class="g" id="csv">Export CSV</button></div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="g2">
+<div class="card"><h3>Add subscription</h3>
+<form id="f">
+<input class="f" id="n" placeholder="Name (e.g. Netflix)" required maxlength="40">
+<input id="p" type="number" step="0.01" min="0" placeholder="Price" required>
+<select id="cy"><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="weekly">Weekly</option></select>
+<select id="ct"><option>Streaming</option><option>Music</option><option>Software</option><option>Gaming</option><option>Fitness</option><option>News</option><option>Other</option></select>
+<input id="d" type="date" required aria-label="Next renewal">
+<select class="f" id="u"><option value="often">I use it often</option><option value="sometimes">I use it sometimes</option><option value="rarely">I rarely use it</option></select>
+<button class="f">+ Add</button>
+</form></div>
+<div class="card"><h3>Where your money goes</h3><div class="chart" id="chart"></div></div>
+</div>
+<div class="card"><h3>Your subscriptions (next renewal first)</h3><div id="list"></div></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const COL={Streaming:"#ff3d71",Music:"#8d73ff",Software:"#1e90ff",Gaming:"#2ed573",Fitness:"#ffa502",News:"#00cec9",Other:"#a4b0be"};
+let D=[],cur="$";
+try{D=JSON.parse(localStorage.getItem("subs")||"[]");cur=localStorage.getItem("cur")||"$"}catch(e){}
+const save=()=>{try{localStorage.setItem("subs",JSON.stringify(D));localStorage.setItem("cur",cur)}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mo=s=>s.cycle=="monthly"?s.price:s.cycle=="yearly"?s.price/12:s.price*52/12;
+const fm=n=>cur+n.toFixed(2);
+const today=()=>{const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())};
+function nxt(s){const [y,m,d]=s.date.split("-").map(Number);let x=new Date(y,m-1,d),t=today(),i=0;
+ while(x<t&&i++<2000){if(s.cycle=="weekly")x.setDate(x.getDate()+7);else if(s.cycle=="yearly")x.setFullYear(x.getFullYear()+1);else x.setMonth(x.getMonth()+1)}
+ return Math.round((x-t)/864e5)}
+const iso=n=>{const x=today();x.setDate(x.getDate()+n);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
+function render(){
+ $("cur").value=cur;
+ const tot=D.reduce((a,s)=>a+mo(s),0),waste=D.filter(s=>s.use=="rarely").reduce((a,s)=>a+mo(s),0);
+ const soon=D.filter(s=>nxt(s)<=7).length;
+ $("stats").innerHTML=`<div class="st"><small>Per month</small><b>${fm(tot)}</b></div><div class="st"><small>Per year</small><b>${fm(tot*12)}</b></div><div class="st"><small>Active</small><b>${D.length}</b></div><div class="st ${soon?"hot":""}"><small>Renewing in 7 days</small><b>${soon}</b></div><div class="st ${waste?"good":""}"><small>Save/year if slayed</small><b>${fm(waste*12)}</b></div>`;
+ const cats={};D.forEach(s=>cats[s.cat]=(cats[s.cat]||0)+mo(s));
+ const ent=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+ if(!ent.length){$("chart").innerHTML='<div class="empty" style="width:100%">Add a subscription to see your breakdown.</div>'}
+ else{let off=0;const R=60,C=2*Math.PI*R;
+  const arcs=ent.map(([k,v])=>{const l=v/tot*C,a=`<circle r="${R}" cx="80" cy="80" fill="none" stroke="${COL[k]||COL.Other}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 80 80)"/>`;off+=l;return a}).join("");
+  $("chart").innerHTML=`<svg viewBox="0 0 160 160">${arcs}<text x="80" y="76" text-anchor="middle" fill="currentColor" font-size="12" opacity=".6">monthly</text><text x="80" y="96" text-anchor="middle" fill="currentColor" font-size="16" font-weight="700">${fm(tot)}</text></svg><div class="lg">${ent.map(([k,v])=>`<div><span><i style="background:${COL[k]||COL.Other}"></i>${esc(k)}</span><b>${fm(v)}</b></div>`).join("")}</div>`}
+ const sorted=[...D].sort((a,b)=>nxt(a)-nxt(b));
+ $("list").innerHTML=sorted.length?sorted.map(s=>{const n=nxt(s),cl=n<=3?"r":n<=7?"o":"";
+  return `<div class="item"><span class="dot" style="background:${COL[s.cat]||COL.Other}"></span><div><b>${esc(s.name)}</b><br><small>${esc(s.cat)} · ${fm(s.price)}/${s.cycle=="monthly"?"mo":s.cycle=="yearly"?"yr":"wk"}${s.cycle!="monthly"?" ("+fm(mo(s))+"/mo)":""}</small></div><span class="pill ${cl}">${n==0?"Today!":n==1?"Tomorrow":"in "+n+" days"}</span><select data-u="${s.id}" aria-label="Usage"><option value="often"${s.use=="often"?" selected":""}>Often</option><option value="sometimes"${s.use=="sometimes"?" selected":""}>Sometimes</option><option value="rarely"${s.use=="rarely"?" selected":""}>Rarely</option></select><button class="g" data-x="${s.id}" aria-label="Delete">✕</button></div>`}).join(""):'<div class="empty">Nothing yet. Add your first subscription or load the sample.</div>';
+}
+$("f").onsubmit=e=>{e.preventDefault();D.push({id:Date.now()+Math.random(),name:$("n").value.trim(),price:+$("p").value,cycle:$("cy").value,cat:$("ct").value,date:$("d").value,use:$("u").value});save();e.target.reset();$("d").value=iso(7);render()};
+$("list").onclick=e=>{const b=e.target.closest("[data-x]");if(b){D=D.filter(s=>String(s.id)!==b.dataset.x);save();render()}};
+$("list").onchange=e=>{const id=e.target.dataset.u;if(id){const s=D.find(x=>String(x.id)===id);s.use=e.target.value;save();render()}};
+$("cur").onchange=e=>{cur=e.target.value;save();render()};
+$("demo").onclick=()=>{D=[["Netflix",15.49,"monthly","Streaming",3,"sometimes"],["Spotify",10.99,"monthly","Music",12,"often"],["Adobe Creative Cloud",59.99,"monthly","Software",5,"sometimes"],["Gym",39,"monthly","Fitness",20,"rarely"],["Cloud Storage",99.99,"yearly","Software",60,"often"],["Game Pass",16.99,"monthly","Gaming",1,"rarely"],["News+",6.99,"monthly","News",9,"rarely"]].map((x,i)=>({id:i+1,name:x[0],price:x[1],cycle:x[2],cat:x[3],date:iso(x[4]),use:x[5]}));save();render()};
+$("csv").onclick=()=>{const r=[["Name","Price","Cycle","Category","Monthly cost","Next renewal in (days)","Usage"],...D.map(s=>[s.name,s.price,s.cycle,s.cat,mo(s).toFixed(2),nxt(s),s.use])];
+ const t=r.map(a=>a.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="subscriptions.csv";a.click()};
+$("d").value=iso(7);render();
+</script>
+</body>
+</html>
