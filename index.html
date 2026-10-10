@@ -11,209 +11,203 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SubSlayer – Find and slay wasted subscriptions</title>
+<title>Pitchside – Football Players and Finals</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f4fa;--card:#fff;--tx:#17162a;--mut:#6c6b82;--ac:#ff3d71;--ok:#14b86a;--bd:#e5e3f1}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f0e18;--card:#1a1929;--tx:#f0effc;--mut:#9d9bb5;--ac:#ff5c88;--ok:#2ad586;--bd:#2c2b42}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
-.w{max-width:1000px;margin:0 auto;padding:26px 0 50px}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
-h1{margin:0;font-size:2rem}h1 span{color:var(--ac)}
-.sub{color:var(--mut);margin:2px 0 18px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.st{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}
-.st small{color:var(--mut);display:block}.st b{font-size:1.5rem}
-.st.hot b{color:var(--ac)}.st.good b{color:var(--ok)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-@media(max-width:720px){.g2{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
-h3{margin:0 0 10px;font-size:1.05rem}
-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-form .f{grid-column:1/-1}
-input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;min-width:0}
-button{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;background:var(--ac);color:#fff}
-button.g{background:transparent;color:var(--tx);border:1px solid var(--bd);font-weight:500}
-.chart{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.chart svg{width:150px;height:150px;flex:none}
-.lg{font-size:.88rem;flex:1;min-width:130px}.lg div{display:flex;justify-content:space-between;gap:8px;margin:3px 0}
-.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
-.item{display:grid;grid-template-columns:10px 1fr auto auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
-.item:first-child{border-top:0}
-.dot{width:10px;height:10px;border-radius:50%}
-.item small{color:var(--mut)}
-.pill{font-size:.78rem;padding:3px 9px;border-radius:99px;border:1px solid var(--bd);white-space:nowrap}
-.pill.r{background:var(--ac);color:#fff;border-color:var(--ac)}.pill.o{background:#ff9f1a;color:#222;border-color:#ff9f1a}
-.item select{width:auto;padding:6px;font-size:.85rem}
-@media(max-width:560px){.item{grid-template-columns:10px 1fr auto}.item .pill,.item select{grid-column:2}}
-.empty{color:var(--mut);text-align:center;padding:24px 0}
-.tools{display:flex;gap:8px;flex-wrap:wrap}
+:root{--bg:#f3f5fa;--surf:#fff;--ink:#0d1b3e;--mute:#5a6580;--line:#e1e6f0;--acc:#2f5bff;--acc-ink:#fff;--sh:0 1px 2px rgba(13,27,62,.06),0 8px 24px rgba(13,27,62,.08);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080e1f;--surf:#101a33;--ink:#eaf0ff;--mute:#9aa8c9;--line:#1d2a4a;--acc:#6d8cff;--acc-ink:#080e1f;--sh:0 8px 24px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#080e1f;--surf:#101a33;--ink:#eaf0ff;--mute:#9aa8c9;--line:#1d2a4a;--acc:#6d8cff;--acc-ink:#080e1f;--sh:0 8px 24px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 Barlow,system-ui,sans-serif}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.w{max-width:1120px;margin:0 auto;padding:0 20px}
+.top{background:var(--surf);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.top .w{display:flex;align-items:center;gap:24px;height:64px}
+.logo{font:700 1.6rem "Barlow Condensed",sans-serif;letter-spacing:.01em;display:flex;align-items:center;gap:10px}
+.logo i{width:26px;height:26px;border-radius:50%;background:var(--ink);display:block;position:relative}
+.logo i::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--surf)}
+.tabs{display:flex;gap:4px;margin-left:auto}
+.tab{background:none;border:0;padding:8px 16px;border-radius:8px;font-weight:600;color:var(--mute);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.hero{padding:48px 0 40px}
+.hero .w{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+h1{font:700 clamp(2.4rem,6vw,4.2rem)/1 "Barlow Condensed",sans-serif;margin:0 0 16px;letter-spacing:-.005em}
+.hero p{color:var(--mute);font-size:1.15rem;max-width:44ch;margin:0 0 24px}
+.cta{background:var(--acc);color:var(--acc-ink);border:0;border-radius:10px;padding:12px 22px;font-weight:600;cursor:pointer}
+.hero-stats{display:flex;gap:32px;margin-top:28px}
+.hero-stats b{font:700 2.2rem "Barlow Condensed",sans-serif;display:block;line-height:1}
+.hero-stats span{color:var(--mute);font-size:.9rem}
+.feat{all:unset;display:block;cursor:pointer;background:var(--surf);border-radius:16px;box-shadow:var(--sh);overflow:hidden}
+.feat .hd{padding:14px 20px;color:var(--mute);font-size:.9rem;border-bottom:1px solid var(--line)}
+.sb{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;padding:24px 20px}
+.tm{display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:600;text-align:center}
+.bd{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font:700 1.1rem "Barlow Condensed",sans-serif}
+.sc{font:700 3rem "Barlow Condensed",sans-serif;white-space:nowrap}
+.feat .ft{padding:12px 20px;background:var(--bg);color:var(--mute);font-size:.9rem}
+main{padding-bottom:64px}
+h2.sec{font:700 1.9rem "Barlow Condensed",sans-serif;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 20px}
+.bar{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.bar input,.bar select{font:inherit;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surf);color:var(--ink)}
+.bar input{flex:1 1 240px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chips button{border:1px solid var(--line);background:var(--surf);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#count{color:var(--mute);margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surf);border-radius:16px;box-shadow:var(--sh);overflow:hidden;display:block;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.kit{height:132px;position:relative;padding:14px 16px;overflow:hidden}
+.kit .no{position:absolute;right:8px;bottom:-22px;font:700 8rem/1 "Barlow Condensed",sans-serif;opacity:.28}
+.kit .po{font-weight:600;font-size:.9rem}
+.body{padding:14px 16px 16px}
+.body h3{font:700 1.45rem/1.1 "Barlow Condensed",sans-serif;margin:0 0 2px}
+.body p{margin:0;color:var(--mute);font-size:.95rem}
+.mlist{display:grid;gap:14px}
+.match{all:unset;box-sizing:border-box;display:grid;grid-template-columns:130px 1fr auto 1fr;gap:16px;align-items:center;background:var(--surf);border-radius:14px;box-shadow:var(--sh);padding:16px 20px;cursor:pointer}
+.match:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.match:hover{box-shadow:0 0 0 2px var(--acc)}
+.match .dt{color:var(--mute);font-size:.88rem;line-height:1.3}
+.match .tm2{display:flex;align-items:center;gap:12px;font-weight:600}
+.match .tm2.r{justify-content:flex-end}
+.match .bd{width:40px;height:40px;font-size:.85rem;flex:none}
+.match .sc{font-size:2rem;background:var(--bg);padding:2px 14px;border-radius:8px}
+.match .nt{grid-column:2/-1;color:var(--mute);font-size:.88rem;margin-top:-8px}
+dialog{margin:0 0 0 auto;height:100%;max-height:none;width:min(480px,100%);border:0;padding:0;background:var(--surf);color:var(--ink);box-shadow:-12px 0 40px rgba(0,0,0,.25);overflow:auto}
+dialog[open]{animation:in .22s ease-out}
+@keyframes in{from{transform:translateX(40px);opacity:0}}
+dialog::backdrop{background:rgba(8,14,31,.55)}
+.dh{padding:24px;position:relative;min-height:170px;overflow:hidden}
+.dh .no{position:absolute;right:12px;bottom:-30px;font:700 10rem/1 "Barlow Condensed",sans-serif;opacity:.25}
+.dh h3{font:700 2.4rem/1 "Barlow Condensed",sans-serif;margin:34px 0 4px;position:relative}
+.dh p{margin:0;position:relative}
+.x{position:absolute;top:14px;right:14px;z-index:2;background:rgba(0,0,0,.35);color:#fff;border:0;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1.2rem}
+.db{padding:24px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px}
+.tiles div{background:var(--bg);border-radius:12px;padding:12px 14px}
+.tiles span{display:block;color:var(--mute);font-size:.85rem}
+.tiles b{font-size:1.1rem}
+.db h4{font:700 1.25rem "Barlow Condensed",sans-serif;margin:20px 0 8px}
+.db ul{margin:0;padding-left:20px}
+.db li{margin-bottom:6px}
+.lk{background:none;border:0;padding:0;color:var(--acc);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+footer{border-top:1px solid var(--line);padding:24px 20px;text-align:center;color:var(--mute);font-size:.9rem}
+@media (max-width:820px){.hero .w{grid-template-columns:1fr}.match{grid-template-columns:1fr auto 1fr}.match .dt{grid-column:1/-1}.match .nt{grid-column:1/-1;margin-top:0}}
+@media (max-width:480px){.top .w{gap:12px}.tab{padding:8px 10px}.match .tm2 span{font-size:.9rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="w">
-<div class="top">
-<div><h1>Sub<span>Slayer</span></h1><p class="sub">Track every subscription, see what you really pay, and slay the ones you don't use.</p></div>
-<div class="tools"><select id="cur" aria-label="Currency"><option>$</option><option>€</option><option>£</option><option>RM</option><option>₹</option><option>¥</option></select><button class="g" id="demo">Load sample</button><button class="g" id="csv">Export CSV</button></div>
+<header class="top"><div class="w">
+<div class="logo"><i></i>Pitchside</div>
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" aria-selected="true" data-v="players">Players</button>
+<button class="tab" role="tab" aria-selected="false" data-v="matches">Matches</button>
+</div></div></header>
+
+<section class="hero"><div class="w">
+<div>
+<h1>Know the players behind football's biggest nights.</h1>
+<p>Profiles of 12 stars and the finals that defined them, with scorers, venues and the story of each match.</p>
+<button class="cta" id="go">Browse players</button>
+<div class="hero-stats"><div><b id="sp">0</b><span>Players</span></div><div><b id="sm">0</b><span>Finals</span></div><div><b id="sc2">0</b><span>Countries</span></div></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="g2">
-<div class="card"><h3>Add subscription</h3>
-<form id="f">
-<input class="f" id="n" placeholder="Name (e.g. Netflix)" required maxlength="40">
-<input id="p" type="number" step="0.01" min="0" placeholder="Price" required>
-<select id="cy"><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="weekly">Weekly</option></select>
-<select id="ct"><option>Streaming</option><option>Music</option><option>Software</option><option>Gaming</option><option>Fitness</option><option>News</option><option>Other</option></select>
-<input id="d" type="date" required aria-label="Next renewal">
-<select class="f" id="u"><option value="often">I use it often</option><option value="sometimes">I use it sometimes</option><option value="rarely">I rarely use it</option></select>
-<button class="f">+ Add</button>
-</form></div>
-<div class="card"><h3>Where your money goes</h3><div class="chart" id="chart"></div></div>
-</div>
-<div class="card"><h3>Your subscriptions (next renewal first)</h3><div id="list"></div></div>
-</div>
+<button class="feat" id="feat" aria-label="Open the 2022 World Cup final"></button>
+</div></section>
+
+<main class="w">
+<section id="players">
+<h2 class="sec" id="top">Players</h2>
+<p class="sub">Open a profile for bio, career highlights and the finals they played in.</p>
+<div class="bar"><input id="q" type="search" placeholder="Search by name or country" aria-label="Search players">
+<select id="sort" aria-label="Sort players"><option value="n">Name A to Z</option><option value="born">Oldest first</option><option value="no">Shirt number</option></select></div>
+<div class="chips" id="chips"></div>
+<p id="count" aria-live="polite"></p>
+<div class="grid" id="grid"></div>
+</section>
+<section id="matches" hidden>
+<h2 class="sec">Matches</h2>
+<p class="sub">Landmark finals. Open one for scorers and the story.</p>
+<div class="chips" id="mchips"></div>
+<div class="mlist" id="mlist"></div>
+</section>
+</main>
+
+<dialog id="dlg" aria-label="Details"><button class="x" id="dx" aria-label="Close">&times;</button><div id="dbody"></div></dialog>
+<footer>Summaries of past results and honours. Check official sources for current squads and fixtures.</footer>
+
 <script>
-const $=id=>document.getElementById(id);
-const COL={Streaming:"#ff3d71",Music:"#8d73ff",Software:"#1e90ff",Gaming:"#2ed573",Fitness:"#ffa502",News:"#00cec9",Other:"#a4b0be"};
-let D=[],cur="$";
-try{D=JSON.parse(localStorage.getItem("subs")||"[]");cur=localStorage.getItem("cur")||"$"}catch(e){}
-const save=()=>{try{localStorage.setItem("subs",JSON.stringify(D));localStorage.setItem("cur",cur)}catch(e){}};
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const mo=s=>s.cycle=="monthly"?s.price:s.cycle=="yearly"?s.price/12:s.price*52/12;
-const fm=n=>cur+n.toFixed(2);
-const today=()=>{const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())};
-function nxt(s){const [y,m,d]=s.date.split("-").map(Number);let x=new Date(y,m-1,d),t=today(),i=0;
- while(x<t&&i++<2000){if(s.cycle=="weekly")x.setDate(x.getDate()+7);else if(s.cycle=="yearly")x.setFullYear(x.getFullYear()+1);else x.setMonth(x.getMonth()+1)}
- return Math.round((x-t)/864e5)}
-const iso=n=>{const x=today();x.setDate(x.getDate()+n);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
-function render(){
- $("cur").value=cur;
- const tot=D.reduce((a,s)=>a+mo(s),0),waste=D.filter(s=>s.use=="rarely").reduce((a,s)=>a+mo(s),0);
- const soon=D.filter(s=>nxt(s)<=7).length;
- $("stats").innerHTML=`<div class="st"><small>Per month</small><b>${fm(tot)}</b></div><div class="st"><small>Per year</small><b>${fm(tot*12)}</b></div><div class="st"><small>Active</small><b>${D.length}</b></div><div class="st ${soon?"hot":""}"><small>Renewing in 7 days</small><b>${soon}</b></div><div class="st ${waste?"good":""}"><small>Save/year if slayed</small><b>${fm(waste*12)}</b></div>`;
- const cats={};D.forEach(s=>cats[s.cat]=(cats[s.cat]||0)+mo(s));
- const ent=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
- if(!ent.length){$("chart").innerHTML='<div class="empty" style="width:100%">Add a subscription to see your breakdown.</div>'}
- else{let off=0;const R=60,C=2*Math.PI*R;
-  const arcs=ent.map(([k,v])=>{const l=v/tot*C,a=`<circle r="${R}" cx="80" cy="80" fill="none" stroke="${COL[k]||COL.Other}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 80 80)"/>`;off+=l;return a}).join("");
-  $("chart").innerHTML=`<svg viewBox="0 0 160 160">${arcs}<text x="80" y="76" text-anchor="middle" fill="currentColor" font-size="12" opacity=".6">monthly</text><text x="80" y="96" text-anchor="middle" fill="currentColor" font-size="16" font-weight="700">${fm(tot)}</text></svg><div class="lg">${ent.map(([k,v])=>`<div><span><i style="background:${COL[k]||COL.Other}"></i>${esc(k)}</span><b>${fm(v)}</b></div>`).join("")}</div>`}
- const sorted=[...D].sort((a,b)=>nxt(a)-nxt(b));
- $("list").innerHTML=sorted.length?sorted.map(s=>{const n=nxt(s),cl=n<=3?"r":n<=7?"o":"";
-  return `<div class="item"><span class="dot" style="background:${COL[s.cat]||COL.Other}"></span><div><b>${esc(s.name)}</b><br><small>${esc(s.cat)} · ${fm(s.price)}/${s.cycle=="monthly"?"mo":s.cycle=="yearly"?"yr":"wk"}${s.cycle!="monthly"?" ("+fm(mo(s))+"/mo)":""}</small></div><span class="pill ${cl}">${n==0?"Today!":n==1?"Tomorrow":"in "+n+" days"}</span><select data-u="${s.id}" aria-label="Usage"><option value="often"${s.use=="often"?" selected":""}>Often</option><option value="sometimes"${s.use=="sometimes"?" selected":""}>Sometimes</option><option value="rarely"${s.use=="rarely"?" selected":""}>Rarely</option></select><button class="g" data-x="${s.id}" aria-label="Delete">✕</button></div>`}).join(""):'<div class="empty">Nothing yet. Add your first subscription or load the sample.</div>';
+var K={Argentina:["#75aadb","#e9f3fb","#0d1b3e"],Portugal:["#b3122b","#0b6b3a","#fff"],Norway:["#ba0c2f","#00205b","#fff"],France:["#0b2a6f","#2b52c4","#fff"],Spain:["#c60b1e","#e8a900","#fff"],Egypt:["#ce1126","#1a1a1a","#fff"],England:["#14213d","#c8102e","#fff"],Belgium:["#c8102e","#1a1a1a","#fff"],Croatia:["#c8102e","#1d3c8f","#fff"],Netherlands:["#f36c21","#c24a0c","#fff"],Brazil:["#f5c400","#009c3b","#0d1b3e"]};
+var T={ARG:["Argentina","#75aadb","#0d1b3e"],FRA:["France","#0b2a6f","#fff"],ESP:["Spain","#c60b1e","#fff"],ENG:["England","#14213d","#fff"],CRO:["Croatia","#c8102e","#fff"],LIV:["Liverpool","#c8102e","#fff"],RMA:["Real Madrid","#e8e8f0","#14213d"],BVB:["Borussia Dortmund","#fde100","#111"],COL:["Colombia","#fcd116","#0b2a6f"]};
+var P=[
+{n:"Lionel Messi",c:"Argentina",pos:"Forward",no:10,born:1987,city:"Rosario",h:"170 cm",foot:"Left",hl:["Won the 2022 World Cup and was named player of the tournament","Eight-time Ballon d'Or winner, the most by any player","Won the Copa América in 2021 and 2024","Four Champions League titles with Barcelona"],m:[1,7]},
+{n:"Cristiano Ronaldo",c:"Portugal",pos:"Forward",no:7,born:1985,city:"Funchal",h:"187 cm",foot:"Right",hl:["Men's record scorer for national teams","Five Champions League titles and five Ballon d'Or awards","Captained Portugal to Euro 2016"],m:[]},
+{n:"Erling Haaland",c:"Norway",pos:"Forward",no:9,born:2000,city:"Leeds",h:"194 cm",foot:"Left",hl:["Scored a record 36 Premier League goals in 2022-23","Part of Manchester City's 2023 treble-winning side","Fast, powerful and clinical inside the box"],m:[]},
+{n:"Kylian Mbappé",c:"France",pos:"Forward",no:10,born:1998,city:"Paris",h:"178 cm",foot:"Right",hl:["Won the 2018 World Cup as a teenager","Scored a hat-trick in the 2022 final and won the Golden Boot","Among the fastest players in world football"],m:[1,3]},
+{n:"Lamine Yamal",c:"Spain",pos:"Forward",no:19,born:2007,city:"Esplugues de Llobregat",h:"180 cm",foot:"Left",hl:["Won Euro 2024 with Spain aged 17","Named young player of Euro 2024","Dribbler who cuts in from the right wing"],m:[2]},
+{n:"Mohamed Salah",c:"Egypt",pos:"Forward",no:11,born:1992,city:"Nagrig",h:"175 cm",foot:"Left",hl:["Multiple Premier League Golden Boot winner","Champions League winner with Liverpool in 2019","Egypt's most famous modern player"],m:[5]},
+{n:"Jude Bellingham",c:"England",pos:"Midfielder",no:10,born:2003,city:"Stourbridge",h:"186 cm",foot:"Right",hl:["Joined Real Madrid in 2023 and won the Champions League in 2024","Played in the Euro 2024 final","Box-to-box midfielder who scores and creates"],m:[2,6]},
+{n:"Kevin De Bruyne",c:"Belgium",pos:"Midfielder",no:7,born:1991,city:"Drongen",h:"181 cm",foot:"Right",hl:["Key playmaker in Manchester City's 2023 treble","Known for precise through-passes and crosses","Belgium's creative leader through a golden generation"],m:[]},
+{n:"Luka Modrić",c:"Croatia",pos:"Midfielder",no:10,born:1985,city:"Zadar",h:"172 cm",foot:"Right",hl:["Won the 2018 Ballon d'Or after Croatia's World Cup run","Six Champions League titles with Real Madrid","Controls tempo with passing and vision"],m:[3,5,6]},
+{n:"Aitana Bonmatí",c:"Spain",pos:"Midfielder",no:6,born:1998,city:"Sant Pere de Ribes",h:"170 cm",foot:"Right",hl:["Won the 2023 Women's World Cup","Won the Ballon d'Or Féminin in 2023 and 2024","Technical midfielder who links defence and attack"],m:[4]},
+{n:"Virgil van Dijk",c:"Netherlands",pos:"Defender",no:4,born:1991,city:"Breda",h:"195 cm",foot:"Right",hl:["Won the Champions League in 2019 and the Premier League in 2020 with Liverpool","Dominant in the air and calm on the ball","Captains the Netherlands"],m:[5]},
+{n:"Alisson Becker",c:"Brazil",pos:"Goalkeeper",no:1,born:1992,city:"Novo Hamburgo",h:"191 cm",foot:"Right",hl:["Won the Champions League in 2019 and the Premier League in 2020","Sweeper-keeper with accurate long distribution","Brazil's first-choice goalkeeper"],m:[5]}
+];
+var M=[
+{n:"World Cup Final 2022",a:"ARG",b:"FRA",sa:3,sb:3,note:"Argentina won 4-2 on penalties",d:"18 Dec 2022",v:"Lusail Stadium, Qatar",g:["Messi 23' (pen)","Di María 36'","Mbappé 80' (pen)","Mbappé 81'","Messi 108'","Mbappé 118' (pen)"],s:"One of the most dramatic finals ever. Argentina led 2-0, France levelled with two goals in 97 seconds, and Mbappé's hat-trick forced a shootout that Argentina won.",p:[0,3]},
+{n:"Euro 2024 Final",a:"ESP",b:"ENG",sa:2,sb:1,note:"",d:"14 Jul 2024",v:"Olympiastadion, Berlin",g:["Williams 47'","Palmer 73'","Oyarzabal 86'"],s:"Spain won a record fourth European title, with a late Oyarzabal goal settling it after Palmer equalised for England.",p:[4,6]},
+{n:"World Cup Final 2018",a:"FRA",b:"CRO",sa:4,sb:2,note:"",d:"15 Jul 2018",v:"Luzhniki Stadium, Moscow",g:["Mandžukić 18' (og)","Perišić 28'","Griezmann 38' (pen)","Pogba 59'","Mbappé 65'","Mandžukić 69'"],s:"France won their second World Cup. Croatia, led by Modrić, reached their first final.",p:[3,8]},
+{n:"Women's World Cup Final 2023",a:"ESP",b:"ENG",sa:1,sb:0,note:"",d:"20 Aug 2023",v:"Stadium Australia, Sydney",g:["Carmona 29'"],s:"Olga Carmona's strike gave Spain their first Women's World Cup.",p:[9]},
+{n:"Champions League Final 2022",a:"LIV",b:"RMA",sa:0,sb:1,note:"",d:"28 May 2022",v:"Stade de France, Paris",g:["Vinícius Júnior 59'"],s:"Real Madrid won their 14th European Cup despite a busy night for Liverpool's attack.",p:[5,8,10,11]},
+{n:"Champions League Final 2024",a:"BVB",b:"RMA",sa:0,sb:2,note:"",d:"1 Jun 2024",v:"Wembley Stadium, London",g:["Carvajal 74'","Vinícius Júnior 83'"],s:"Real Madrid claimed a 15th European title.",p:[6,8]},
+{n:"Copa América Final 2024",a:"ARG",b:"COL",sa:1,sb:0,note:"After extra time",d:"14 Jul 2024",v:"Hard Rock Stadium, Miami",g:["Lautaro Martínez 112'"],s:"Argentina defended their title with an extra-time winner.",p:[0]}
+];
+var pos="All",mf="All",$=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function kit(p){var k=K[p.c];return 'background:linear-gradient(135deg,'+k[0]+','+k[1]+');color:'+k[2]}
+function bd(c){var t=T[c];return '<span class="bd" style="background:'+t[1]+';color:'+t[2]+'">'+c+'</span>'}
+$("sp").textContent=P.length;$("sm").textContent=M.length;
+$("sc2").textContent=Object.keys(P.reduce(function(o,p){o[p.c]=1;return o},{})).length;
+function chips(el,arr){el.innerHTML=arr.map(function(x){return '<button aria-pressed="'+(x==="All")+'" data-p="'+x+'">'+x+'</button>'}).join("")}
+chips($("chips"),["All","Forward","Midfielder","Defender","Goalkeeper"]);
+chips($("mchips"),["All","World Cup","Euro","Champions League","Copa América"]);
+function feat(){var m=M[0];$("feat").innerHTML='<div class="hd">Featured final: '+esc(m.n)+'</div><div class="sb"><div class="tm">'+bd(m.a)+T[m.a][0]+'</div><div class="sc">'+m.sa+' - '+m.sb+'</div><div class="tm">'+bd(m.b)+T[m.b][0]+'</div></div><div class="ft">'+esc(m.note)+' | '+esc(m.v)+'</div>'}
+function renderP(){
+  var t=$("q").value.trim().toLowerCase(),s=$("sort").value;
+  var l=P.map(function(p,i){p.i=i;return p}).filter(function(p){return(pos==="All"||p.pos===pos)&&(!t||(p.n+" "+p.c).toLowerCase().indexOf(t)>-1)});
+  l.sort(function(a,b){return s==="n"?a.n.localeCompare(b.n):a[s]-b[s]});
+  $("count").textContent=l.length+(l.length===1?" player":" players");
+  $("grid").innerHTML=l.length?l.map(function(p){return '<button class="card" data-i="'+p.i+'"><div class="kit" style="'+kit(p)+'"><span class="po">'+esc(p.pos)+'</span><span class="no">'+p.no+'</span></div><div class="body"><h3>'+esc(p.n)+'</h3><p>'+esc(p.c)+', born '+p.born+'</p></div></button>'}).join(""):'<p class="sub">No players match. Clear the search or choose another position.</p>';
 }
-$("f").onsubmit=e=>{e.preventDefault();D.push({id:Date.now()+Math.random(),name:$("n").value.trim(),price:+$("p").value,cycle:$("cy").value,cat:$("ct").value,date:$("d").value,use:$("u").value});save();e.target.reset();$("d").value=iso(7);render()};
-$("list").onclick=e=>{const b=e.target.closest("[data-x]");if(b){D=D.filter(s=>String(s.id)!==b.dataset.x);save();render()}};
-$("list").onchange=e=>{const id=e.target.dataset.u;if(id){const s=D.find(x=>String(x.id)===id);s.use=e.target.value;save();render()}};
-$("cur").onchange=e=>{cur=e.target.value;save();render()};
-$("demo").onclick=()=>{D=[["Netflix",15.49,"monthly","Streaming",3,"sometimes"],["Spotify",10.99,"monthly","Music",12,"often"],["Adobe Creative Cloud",59.99,"monthly","Software",5,"sometimes"],["Gym",39,"monthly","Fitness",20,"rarely"],["Cloud Storage",99.99,"yearly","Software",60,"often"],["Game Pass",16.99,"monthly","Gaming",1,"rarely"],["News+",6.99,"monthly","News",9,"rarely"]].map((x,i)=>({id:i+1,name:x[0],price:x[1],cycle:x[2],cat:x[3],date:iso(x[4]),use:x[5]}));save();render()};
-$("csv").onclick=()=>{const r=[["Name","Price","Cycle","Category","Monthly cost","Next renewal in (days)","Usage"],...D.map(s=>[s.name,s.price,s.cycle,s.cat,mo(s).toFixed(2),nxt(s),s.use])];
- const t=r.map(a=>a.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="subscriptions.csv";a.click()};
-$("d").value=iso(7);render();
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SubSlayer – Find and slay wasted subscriptions</title>
-<style>
-:root{--bg:#f5f4fa;--card:#fff;--tx:#17162a;--mut:#6c6b82;--ac:#ff3d71;--ok:#14b86a;--bd:#e5e3f1}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f0e18;--card:#1a1929;--tx:#f0effc;--mut:#9d9bb5;--ac:#ff5c88;--ok:#2ad586;--bd:#2c2b42}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
-.w{max-width:1000px;margin:0 auto;padding:26px 0 50px}
-.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
-h1{margin:0;font-size:2rem}h1 span{color:var(--ac)}
-.sub{color:var(--mut);margin:2px 0 18px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.st{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}
-.st small{color:var(--mut);display:block}.st b{font-size:1.5rem}
-.st.hot b{color:var(--ac)}.st.good b{color:var(--ok)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-@media(max-width:720px){.g2{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px}
-h3{margin:0 0 10px;font-size:1.05rem}
-form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-form .f{grid-column:1/-1}
-input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit;min-width:0}
-button{border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;background:var(--ac);color:#fff}
-button.g{background:transparent;color:var(--tx);border:1px solid var(--bd);font-weight:500}
-.chart{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.chart svg{width:150px;height:150px;flex:none}
-.lg{font-size:.88rem;flex:1;min-width:130px}.lg div{display:flex;justify-content:space-between;gap:8px;margin:3px 0}
-.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
-.item{display:grid;grid-template-columns:10px 1fr auto auto auto;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
-.item:first-child{border-top:0}
-.dot{width:10px;height:10px;border-radius:50%}
-.item small{color:var(--mut)}
-.pill{font-size:.78rem;padding:3px 9px;border-radius:99px;border:1px solid var(--bd);white-space:nowrap}
-.pill.r{background:var(--ac);color:#fff;border-color:var(--ac)}.pill.o{background:#ff9f1a;color:#222;border-color:#ff9f1a}
-.item select{width:auto;padding:6px;font-size:.85rem}
-@media(max-width:560px){.item{grid-template-columns:10px 1fr auto}.item .pill,.item select{grid-column:2}}
-.empty{color:var(--mut);text-align:center;padding:24px 0}
-.tools{display:flex;gap:8px;flex-wrap:wrap}
-</style>
-</head>
-<body>
-<div class="w">
-<div class="top">
-<div><h1>Sub<span>Slayer</span></h1><p class="sub">Track every subscription, see what you really pay, and slay the ones you don't use.</p></div>
-<div class="tools"><select id="cur" aria-label="Currency"><option>$</option><option>€</option><option>£</option><option>RM</option><option>₹</option><option>¥</option></select><button class="g" id="demo">Load sample</button><button class="g" id="csv">Export CSV</button></div>
-</div>
-<div class="stats" id="stats"></div>
-<div class="g2">
-<div class="card"><h3>Add subscription</h3>
-<form id="f">
-<input class="f" id="n" placeholder="Name (e.g. Netflix)" required maxlength="40">
-<input id="p" type="number" step="0.01" min="0" placeholder="Price" required>
-<select id="cy"><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="weekly">Weekly</option></select>
-<select id="ct"><option>Streaming</option><option>Music</option><option>Software</option><option>Gaming</option><option>Fitness</option><option>News</option><option>Other</option></select>
-<input id="d" type="date" required aria-label="Next renewal">
-<select class="f" id="u"><option value="often">I use it often</option><option value="sometimes">I use it sometimes</option><option value="rarely">I rarely use it</option></select>
-<button class="f">+ Add</button>
-</form></div>
-<div class="card"><h3>Where your money goes</h3><div class="chart" id="chart"></div></div>
-</div>
-<div class="card"><h3>Your subscriptions (next renewal first)</h3><div id="list"></div></div>
-</div>
-<script>
-const $=id=>document.getElementById(id);
-const COL={Streaming:"#ff3d71",Music:"#8d73ff",Software:"#1e90ff",Gaming:"#2ed573",Fitness:"#ffa502",News:"#00cec9",Other:"#a4b0be"};
-let D=[],cur="$";
-try{D=JSON.parse(localStorage.getItem("subs")||"[]");cur=localStorage.getItem("cur")||"$"}catch(e){}
-const save=()=>{try{localStorage.setItem("subs",JSON.stringify(D));localStorage.setItem("cur",cur)}catch(e){}};
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const mo=s=>s.cycle=="monthly"?s.price:s.cycle=="yearly"?s.price/12:s.price*52/12;
-const fm=n=>cur+n.toFixed(2);
-const today=()=>{const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())};
-function nxt(s){const [y,m,d]=s.date.split("-").map(Number);let x=new Date(y,m-1,d),t=today(),i=0;
- while(x<t&&i++<2000){if(s.cycle=="weekly")x.setDate(x.getDate()+7);else if(s.cycle=="yearly")x.setFullYear(x.getFullYear()+1);else x.setMonth(x.getMonth()+1)}
- return Math.round((x-t)/864e5)}
-const iso=n=>{const x=today();x.setDate(x.getDate()+n);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
-function render(){
- $("cur").value=cur;
- const tot=D.reduce((a,s)=>a+mo(s),0),waste=D.filter(s=>s.use=="rarely").reduce((a,s)=>a+mo(s),0);
- const soon=D.filter(s=>nxt(s)<=7).length;
- $("stats").innerHTML=`<div class="st"><small>Per month</small><b>${fm(tot)}</b></div><div class="st"><small>Per year</small><b>${fm(tot*12)}</b></div><div class="st"><small>Active</small><b>${D.length}</b></div><div class="st ${soon?"hot":""}"><small>Renewing in 7 days</small><b>${soon}</b></div><div class="st ${waste?"good":""}"><small>Save/year if slayed</small><b>${fm(waste*12)}</b></div>`;
- const cats={};D.forEach(s=>cats[s.cat]=(cats[s.cat]||0)+mo(s));
- const ent=Object.entries(cats).sort((a,b)=>b[1]-a[1]);
- if(!ent.length){$("chart").innerHTML='<div class="empty" style="width:100%">Add a subscription to see your breakdown.</div>'}
- else{let off=0;const R=60,C=2*Math.PI*R;
-  const arcs=ent.map(([k,v])=>{const l=v/tot*C,a=`<circle r="${R}" cx="80" cy="80" fill="none" stroke="${COL[k]||COL.Other}" stroke-width="22" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 80 80)"/>`;off+=l;return a}).join("");
-  $("chart").innerHTML=`<svg viewBox="0 0 160 160">${arcs}<text x="80" y="76" text-anchor="middle" fill="currentColor" font-size="12" opacity=".6">monthly</text><text x="80" y="96" text-anchor="middle" fill="currentColor" font-size="16" font-weight="700">${fm(tot)}</text></svg><div class="lg">${ent.map(([k,v])=>`<div><span><i style="background:${COL[k]||COL.Other}"></i>${esc(k)}</span><b>${fm(v)}</b></div>`).join("")}</div>`}
- const sorted=[...D].sort((a,b)=>nxt(a)-nxt(b));
- $("list").innerHTML=sorted.length?sorted.map(s=>{const n=nxt(s),cl=n<=3?"r":n<=7?"o":"";
-  return `<div class="item"><span class="dot" style="background:${COL[s.cat]||COL.Other}"></span><div><b>${esc(s.name)}</b><br><small>${esc(s.cat)} · ${fm(s.price)}/${s.cycle=="monthly"?"mo":s.cycle=="yearly"?"yr":"wk"}${s.cycle!="monthly"?" ("+fm(mo(s))+"/mo)":""}</small></div><span class="pill ${cl}">${n==0?"Today!":n==1?"Tomorrow":"in "+n+" days"}</span><select data-u="${s.id}" aria-label="Usage"><option value="often"${s.use=="often"?" selected":""}>Often</option><option value="sometimes"${s.use=="sometimes"?" selected":""}>Sometimes</option><option value="rarely"${s.use=="rarely"?" selected":""}>Rarely</option></select><button class="g" data-x="${s.id}" aria-label="Delete">✕</button></div>`}).join(""):'<div class="empty">Nothing yet. Add your first subscription or load the sample.</div>';
+function renderM(){
+  var l=M.filter(function(m){return mf==="All"||m.n.indexOf(mf)>-1});
+  $("mlist").innerHTML=l.length?l.map(function(m){return '<button class="match" data-i="'+M.indexOf(m)+'"><span class="dt"><b>'+esc(m.n)+'</b><br>'+esc(m.d)+'</span><span class="tm2">'+bd(m.a)+'<span>'+T[m.a][0]+'</span></span><span class="sc">'+m.sa+' - '+m.sb+'</span><span class="tm2 r"><span>'+T[m.b][0]+'</span>'+bd(m.b)+'</span>'+(m.note?'<span class="nt">'+esc(m.note)+'</span>':'')+'</button>'}).join(""):'<p class="sub">No matches for this filter.</p>';
 }
-$("f").onsubmit=e=>{e.preventDefault();D.push({id:Date.now()+Math.random(),name:$("n").value.trim(),price:+$("p").value,cycle:$("cy").value,cat:$("ct").value,date:$("d").value,use:$("u").value});save();e.target.reset();$("d").value=iso(7);render()};
-$("list").onclick=e=>{const b=e.target.closest("[data-x]");if(b){D=D.filter(s=>String(s.id)!==b.dataset.x);save();render()}};
-$("list").onchange=e=>{const id=e.target.dataset.u;if(id){const s=D.find(x=>String(x.id)===id);s.use=e.target.value;save();render()}};
-$("cur").onchange=e=>{cur=e.target.value;save();render()};
-$("demo").onclick=()=>{D=[["Netflix",15.49,"monthly","Streaming",3,"sometimes"],["Spotify",10.99,"monthly","Music",12,"often"],["Adobe Creative Cloud",59.99,"monthly","Software",5,"sometimes"],["Gym",39,"monthly","Fitness",20,"rarely"],["Cloud Storage",99.99,"yearly","Software",60,"often"],["Game Pass",16.99,"monthly","Gaming",1,"rarely"],["News+",6.99,"monthly","News",9,"rarely"]].map((x,i)=>({id:i+1,name:x[0],price:x[1],cycle:x[2],cat:x[3],date:iso(x[4]),use:x[5]}));save();render()};
-$("csv").onclick=()=>{const r=[["Name","Price","Cycle","Category","Monthly cost","Next renewal in (days)","Usage"],...D.map(s=>[s.name,s.price,s.cycle,s.cat,mo(s).toFixed(2),nxt(s),s.use])];
- const t=r.map(a=>a.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/csv"}));a.download="subscriptions.csv";a.click()};
-$("d").value=iso(7);render();
+function show(h){$("dbody").innerHTML=h;if(!$("dlg").open)$("dlg").showModal();$("dlg").scrollTop=0}
+function showP(i){var p=P[i];
+  var ms=p.m.map(function(k){var m=M[k-1];return '<li><button class="lk" data-m="'+(k-1)+'">'+esc(m.n)+'</button>, '+T[m.a][0]+' '+m.sa+'-'+m.sb+' '+T[m.b][0]+'</li>'}).join("");
+  show('<div class="dh" style="'+kit(p)+'"><span class="no">'+p.no+'</span><h3>'+esc(p.n)+'</h3><p>'+esc(p.pos)+' for '+esc(p.c)+'</p></div><div class="db"><div class="tiles"><div><span>Shirt number</span><b>'+p.no+'</b></div><div><span>Born</span><b>'+p.born+'</b></div><div><span>Birthplace</span><b>'+esc(p.city)+'</b></div><div><span>Height and foot</span><b>'+p.h+', '+p.foot+'</b></div></div><h4>Career highlights</h4><ul>'+p.hl.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul>'+(ms?'<h4>Featured finals</h4><ul>'+ms+'</ul>':'')+'</div>');}
+function showM(i){var m=M[i];
+  var ps=m.p.map(function(k){return '<li><button class="lk" data-p="'+k+'">'+esc(P[k].n)+'</button>, '+esc(P[k].pos)+'</li>'}).join("");
+  show('<div class="dh" style="background:linear-gradient(135deg,'+T[m.a][1]+','+T[m.b][1]+');color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.5)"><h3>'+esc(m.n)+'</h3><p>'+esc(m.d)+', '+esc(m.v)+'</p></div><div class="db"><div class="sb" style="padding:0 0 18px"><div class="tm">'+bd(m.a)+T[m.a][0]+'</div><div class="sc">'+m.sa+' - '+m.sb+'</div><div class="tm">'+bd(m.b)+T[m.b][0]+'</div></div>'+(m.note?'<p style="text-align:center;margin:0 0 12px"><b>'+esc(m.note)+'</b></p>':'')+'<p>'+esc(m.s)+'</p><h4>Goals</h4><ul>'+m.g.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul><h4>Players featured</h4><ul>'+ps+'</ul></div>');}
+function chipClick(el,fn){el.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;fn(b.dataset.p);this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)})})}
+chipClick($("chips"),function(v){pos=v;renderP()});
+chipClick($("mchips"),function(v){mf=v;renderM()});
+$("q").addEventListener("input",renderP);$("sort").addEventListener("change",renderP);
+$("grid").addEventListener("click",function(e){var b=e.target.closest(".card");if(b)showP(b.dataset.i)});
+$("mlist").addEventListener("click",function(e){var b=e.target.closest(".match");if(b)showM(b.dataset.i)});
+$("feat").addEventListener("click",function(){showM(0)});
+$("dbody").addEventListener("click",function(e){var b=e.target.closest(".lk");if(!b)return;if(b.dataset.m)showM(b.dataset.m);else showP(b.dataset.p)});
+$("dx").addEventListener("click",function(){$("dlg").close()});
+$("dlg").addEventListener("click",function(e){if(e.target===$("dlg"))$("dlg").close()});
+function tab(v){document.querySelectorAll(".tab").forEach(function(x){x.setAttribute("aria-selected",x.dataset.v===v)});$("players").hidden=v!=="players";$("matches").hidden=v!=="matches"}
+document.querySelectorAll(".tab").forEach(function(t){t.addEventListener("click",function(){tab(t.dataset.v)})});
+$("go").addEventListener("click",function(){tab("players");$("top").scrollIntoView({behavior:"smooth"})});
+feat();renderP();renderM();
 </script>
 </body>
 </html>
